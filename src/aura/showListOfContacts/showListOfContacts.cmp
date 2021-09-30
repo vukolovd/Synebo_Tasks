@@ -1,0 +1,37 @@
+<aura:component description="showListOfContacts"
+                implements="flexipage:availableForRecordHome,force:hasRecordId,force:lightningQuickActionWithoutHeader"
+                controller="ContactController">
+    <aura:attribute type="Contact[]" name="contactList"/>
+    <aura:attribute name="colums" type="List"/>
+    <aura:attribute name="selectedRows" type="Integer" default="0"/>
+    <aura:attribute name="selectedRecord" type="List"/>
+    <aura:attribute name="sortedBy" type="String" default="Name"/>
+    <aura:attribute name="sortedDirection" type="string" default="asc"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.fetchCon}"/>
+    <lightning:card title="Contact List">
+        <div>
+            <lightning:button label="New"
+                              onclick="{!c.createRecord}"
+                              variant="brand"
+                              class="slds-m-around_medium slds-size_1-of-12"/>
+
+            <lightning:button label="Delete"
+                              iconName="utility:delete"
+                              iconPosition="right"
+                              variant="destructive"
+                              onclick="{!c.deleteSelectedRow}"
+                              class="slds-m-around_medium slds-size_1-of-12 slds-float_right"/>
+        </div>
+        <div style="height: 300px">
+            <lightning:datatable data="{!v.contactList}"
+                                 columns="{!v.colums}"
+                                 keyField="id"
+                                 hideCheckboxColumn="false"
+                                 onrowselection="{!c.updateSelectedRows}"
+                                 onsort="{!c.updateSorting}"
+                                 sortedBy="{!v.sortedBy}"
+                                 sortedDirection="{!v.sortedDirection}"/>
+        </div>
+    </lightning:card>
+</aura:component>
