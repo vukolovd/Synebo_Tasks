@@ -35,6 +35,7 @@ public with sharing class ContactController {
         List<Contact> deleteList = [SELECT Id, Name FROM Contact WHERE Name IN :contacName WITH SECURITY_ENFORCED];
 
         if(Contact.getSObjectType().getDescribe().isDeletable()) {
+
             Database.delete(deleteList, false);
         }
     }
