@@ -31,7 +31,7 @@ public with sharing class ContactTriggerHandlerTest {
 
 
     @IsTest
-    static void afterInsert() {
+    static void countConfirmedContactsInsertTest() {
         Account testAcc = [SELECT Id FROM Account LIMIT 1];
         Contact testContact = new Contact(
                 LastName = 'testLastName',
@@ -44,7 +44,7 @@ public with sharing class ContactTriggerHandlerTest {
     }
 
     @IsTest
-    static void afterUpdate() {
+    static void countConfirmedContactsUpdateTest() {
         Contact testContact = [SELECT Id, Confirmation_status__c FROM Contact LIMIT 1];
         testContact.Confirmation_status__c = true;
         update testContact;
@@ -54,7 +54,7 @@ public with sharing class ContactTriggerHandlerTest {
     }
 
     @IsTest
-    static void afterDelete() {
+    static void countConfirmedContactsDeleteTest() {
         Contact testContact = [SELECT Id FROM Contact LIMIT 1];
         delete testContact;
         Account testAccount = [SELECT Id, Not_confirmed_contacts__c FROM Account LIMIT 1];
@@ -62,7 +62,7 @@ public with sharing class ContactTriggerHandlerTest {
     }
 
     @IsTest
-    static void afterUndelete() {
+    static void countConfirmedContactsUndeleteTest() {
         Contact testContact = [SELECT Id FROM Contact LIMIT 1];
         delete testContact;
         Account testAcc = [SELECT Id, Not_confirmed_contacts__c FROM Account LIMIT 1];
