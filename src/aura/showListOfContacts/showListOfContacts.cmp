@@ -31,7 +31,9 @@
                                  onrowselection="{!c.updateSelectedRows}"
                                  onsort="{!c.updateSorting}"
                                  sortedBy="{!v.sortedBy}"
-                                 sortedDirection="{!v.sortedDirection}"/>
+                                 sortedDirection="{!v.sortedDirection}"
+                                 onrowaction="{!c.handleRowAction}"
+            />
         </div>
     </lightning:card>
 </aura:component>

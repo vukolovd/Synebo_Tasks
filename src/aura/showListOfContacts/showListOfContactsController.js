@@ -8,43 +8,45 @@
     },
 
     updateSorting: function (cmp, event, helper) {
-            var fieldName = event.getParam('fieldName');
-            var sortDirection = event.getParam('sortDirection');
-            cmp.set("v.sortedBy", fieldName);
-            cmp.set("v.sortedDirection", sortDirection);
-            helper.sortData(cmp, fieldName, sortDirection);
+         var fieldName = event.getParam('fieldName');
+         var sortDirection = event.getParam('sortDirection');
+         cmp.set("v.sortedBy", fieldName);
+         cmp.set("v.sortedDirection", sortDirection);
+         helper.sortData(cmp, fieldName, sortDirection);
         },
 
     updateSelectedRows: function (cmp, event, helper) {
         var selectedRows = event.getParam('selectedRows');
-        var names = [];
-       for ( var i = 0; i < selectedRows.length; i++ ) {
-		     names.push(selectedRows[i].name);
+        var ids = [];
+        for(var i = 0; i < selectedRows.length; i++ ) {
+		ids.push(selectedRows[i].Id);
 		}
-		cmp.set("v.selectedRecord", names);
+		cmp.set("v.selectedRecord", ids);
 	  },
 
-	  deleteSelectedRow : function(component, event, helper) {
-              var recordsIds = component.get("v.selectedRecord");
-               var action = component.get("c.deleteContact");
+	deleteSelectedRow : function(cmp, event, helper) {
+              var recordsIds = cmp.get("v.selectedRecord");
+              var action = cmp.get("c.deleteContact");
                   action.setParams({
-                      "contacName" : recordsIds
+                      "Ids" : recordsIds
                   });
                   action.setCallback(this, function(response) {
                       var state = response.getState();
                       if (state === "SUCCESS") {
-                          alert(response.getReturnValue());
-                          if (response.getReturnValue() != "") {
-                              alert(
-                                  "The following error has occurred. while Delete record-->" +
-                                  response.getReturnValue()
-                              );
-                          }else{
-      			alert( "Records deleted successfully" );
-      			helper.loadData(component, event, helper);
-      	         }
+                           var toastEvent = $A.get("e.force:showToast");
+                                               toastEvent.setParams({
+                                                   "type": "success",
+                                                   "title": "Success!",
+                                                   "message": "The record has been deleted successfully."
+                                               });
+                                               toastEvent.fire();
                       }
                   });
                   $A.enqueueAction(action);
           },
+
+    handleRowAction: function(cmp, event, helper){
+              var row = event.getParam('row');
+              helper.deleteContact(cmp, row);
+          }
 });
