@@ -1,5 +1,5 @@
 public with sharing class ContactController {
-    class ContactsList {
+   public class ContactsList {
         @AuraEnabled
         public Id Id {get; set;}
         @AuraEnabled
@@ -34,7 +34,7 @@ public with sharing class ContactController {
     }
 
     @AuraEnabled
-    public static void deleteContact(List<String> Ids){
+    public static void deleteContact(List<Id> Ids){
         List<Contact> deleteList = [SELECT Id  FROM Contact WHERE Id IN :Ids WITH SECURITY_ENFORCED];
         if(Contact.getSObjectType().getDescribe().isDeletable()) {
             Database.delete(deleteList, false);
